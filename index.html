@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reloj Digital</title>
+<style>
+    body {
+        background-color: #000;
+        color: #ffeb3b;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 10%;
+    }
+    #fecha {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    #hora {
+        font-size: 6em;
+        font-weight: bold;
+        text-shadow: 0 0 20px #ffeb3b, 0 0 40px #ffeb3b;
+    }
+    #frase {
+        font-size: 1.5em;
+        margin-top: 20px;
+        font-style: italic;
+    }
+</style>
+</head>
+<body>
+    <div id="fecha"></div>
+    <div id="hora"></div>
+    <div id="frase"></div>
+
+    <script>
+        const frases = [
+            "Cada día es una nueva oportunidad.",
+            "Cree en ti y todo será posible.",
+            "Hoy es un buen día para comenzar.",
+            "La constancia vence al talento.",
+            "Si puedes soñarlo, puedes lograrlo."
+        ];
+
+        function actualizarReloj() {
+            const ahora = new Date();
+            const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-ES', opcionesFecha);
+
+            let horas = ahora.getHours();
+            let minutos = ahora.getMinutes();
+            let segundos = ahora.getSeconds();
+            let ampm = horas >= 12 ? 'PM' : 'AM';
+
+            horas = horas % 12;
+            horas = horas ? horas : 12; // El '0' se convierte en '12'
+            minutos = minutos < 10 ? '0' + minutos : minutos;
+            segundos = segundos < 10 ? '0' + segundos : segundos;
+
+            document.getElementById('hora').textContent = `${horas}:${minutos}:${segundos} ${ampm}`;
+        }
+
+        function fraseDelDia() {
+            const hoy = new Date();
+            const indice = hoy.getDate() % frases.length;
+            document.getElementById('frase').textContent = frases[indice];
+        }
+
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
+        fraseDelDia();
+    </script>
+</body>
+</html>
