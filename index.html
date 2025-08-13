@@ -9,34 +9,68 @@
             margin: 0;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background-color: black;
-            color: lime;
+            color: yellow;
             font-family: 'Arial', sans-serif;
+            text-align: center;
         }
 
-        #reloj {
-            font-size: 20vw; /* Gigante */
-            font-weight: bold; /* Negrita */
-            text-align: center;
-            border: 8px solid lime; /* Borde verde */
-            padding: 20px;
-            border-radius: 20px; /* Bordes redondeados */
+        #fecha {
+            font-size: 4vw;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #hora {
+            font-size: 18vw; /* Enorme */
+            font-weight: bold;
+        }
+
+        #frase {
+            font-size: 3vw;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div id="reloj"></div>
+    <div id="fecha"></div>
+    <div id="hora"></div>
+    <div id="frase"></div>
 
     <script>
+        const frases = [
+            "Hoy es un buen día para lograrlo.",
+            "Cree en ti y todo será posible.",
+            "Cada paso cuenta, no te detengas.",
+            "Hazlo con pasión o no lo hagas.",
+            "El éxito es la suma de pequeños esfuerzos."
+        ];
+
         function actualizarReloj() {
             const ahora = new Date();
-            const horas = String(ahora.getHours()).padStart(2, '0');
+
+            // Fecha
+            const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-ES', opcionesFecha);
+
+            // Hora en formato 12 horas con AM/PM
+            let horas = ahora.getHours();
+            const ampm = horas >= 12 ? 'PM' : 'AM';
+            horas = horas % 12;
+            horas = horas ? horas : 12;
             const minutos = String(ahora.getMinutes()).padStart(2, '0');
             const segundos = String(ahora.getSeconds()).padStart(2, '0');
-            document.getElementById('reloj').textContent = `${horas}:${minutos}:${segundos}`;
+            document.getElementById('hora').textContent = `${horas}:${minutos}:${segundos} ${ampm}`;
+
+            // Frase motivadora del día
+            const indice = ahora.getDate() % frases.length;
+            document.getElementById('frase').textContent = frases[indice];
         }
+
         setInterval(actualizarReloj, 1000);
         actualizarReloj();
     </script>
